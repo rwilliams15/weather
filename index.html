@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Weather by Location</title>
+  
+  
+  <link rel='stylesheet prefetch' href='https://github.com/erikflowers/weather-icons'> <!-- prefetched stylesheet with img's from openweathermap-->
+	  <style>
+		@import url('https://fonts.googleapis.com/css?family=Space+Mono');
+		@import url('https://fonts.googleapis.com/css?family=Open+Sans:200,400,600,700,800');
+
+body 
+{
+  height: 100%;
+  background: green;
+  /* fallback for old browsers */
+}
+
+h1 
+{
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-size: 29px;
+  color: black;
+}
+
+.text
+{
+  font-family: Space Mono, Helvetica, 'sans-serif';
+  font-size: 14px;
+  color: #333;
+  /* Text won't center...*/
+}
+
+.container 
+{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  margin: 40px 0px 10px 0;
+}
+
+.container-button
+ {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 10px;
+}
+
+.weather-icon,
+.title
+{
+  grid-column: 1/4;
+  margin: 0 auto;
+  text-align: center;
+  background: #efefef;
+  border-radius: 4px;
+  padding: 15px 100px;
+}
+
+.important-info
+{ 
+  grid-column: 1;
+}
+
+.description-container
+{
+  background: #efefef;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  width: 200px;
+  margin: 0 auto;
+  padding:20px 0px;
+}
+
+.block-1
+{
+  grid-column: 1;
+  padding: 10px;
+}
+.weatherInfo 
+{
+  height: 100%;
+}
+
+.temp-info 
+{
+  font-family: 'Open Sans', Helvetica, sans-serif;
+  font-size: 65px;
+  color: black;
+  font-weight: 600;
+}
+
+.switch-button 
+{
+  grid-column: 1 1 1;
+  border-radius: 4px;
+  margin: 0 auto;
+  width: 400px;
+  height: 40px;
+  text-align: center;
+}
+	  </style>
+  
+</head>
+
+<body>
+
+  <div class="container">
+  <div class="title">
+    <h1 id="city"></h1>
+    <div id="graphic" class="weather-icon"></div>
+    <div id="description" class='important-info text'></div>
+    <div id="farenheit" class="temp-info"></div>
+    <div id="celsius" class="temp-info"></div>
+  </div>
+</div>
+<div class="description-container">
+  <div class="block-1">
+    <div class="text">
+      <span>Max</span>
+      <span id="max" class="important-info"> </span>
+    </div>
+    <div class="text">
+      <span>Min</span>
+    <span id="min" class='important-info'> </span>
+    </div>
+    
+  </div>
+</div>
+
+<div class="container-button">
+      <div class="switch-button">
+        <span class="active"></span>
+        <button class="text switch-button-case left active-case">Celsius</button>
+        <button class="text switch-button-case right">Farenheit</button>
+      </div>
+</div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> <!--Jquery Content Delivery Network(CDN)-->
+  <script>
+  // Get user's geolocation
+var lat,
+  lon,
+  tWeather,
+  icon,
+  celsius,
+  farenheit,
+  iconNumber,
+  minCelsius,
+  maxCelsius,
+  minF,
+  maxF;
+
+//api that gets your ip for your location
+$.getJSON('https://ipapi.co/json/', function(data)
+{
+  console.log(data);
+
+
+  // reaching the location API
+
+console.log(data);
+    // Finding the latitude and longitude, to be able to find the location
+    $.each(data, function(k, v) {});
+    lat = data.latitude;
+    lon = data.longitude;
+
+    $("#latitude").append(lat);
+    $("#longitude").append(lon);
+	
+	//openweathermap api with my APIID
+    $.getJSON("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=355cf4f52f81b3451ddb5d55e700b906", function(weatherData) 
+	{
+      $.each(weatherData, function(j, b) {});
+      console.log(weatherData);
+      // fetch image and display weather and icon down below 
+      tWeather = weatherData.main.temp;
+      iconNumber = weatherData.weather[0].icon;
+
+      icon = ("http://openweathermap.org/img/w/" + iconNumber + ".png");
+      $("#graphic").append('<img src="' + icon + '"/>');
+
+      $('#description').append(weatherData.weather[0].description);
+      $('#city').append(weatherData.name);
+      minF = Math.floor(weatherData.main.temp_min * 9/5 - 459.67);
+      maxF = Math.floor(weatherData.main.temp_max * 9/5 - 459.67);
+
+      // translate Kelvin to Celsius
+      celsius = Math.floor(weatherData.main.temp - 273.15);
+
+      minCelsius = Math.floor(weatherData.main.temp_min - 273.15);
+      maxCelsius = Math.floor(weatherData.main.temp_max - 273.15);
+      // translate Kelvin to Farenhait T(K) × 9/5 - 459.67
+      farenheit = Math.floor(weatherData.main.temp * 9 / 5 - 459.67);
+
+      // display celsius by default 
+      $('#celsius').append(celsius + 'ºC');
+      $("#min").append( minCelsius + 'ºC');
+      $("#max").append( maxCelsius + 'ºC');
+    });
+  
+
+  // background code here 
+});
+
+
+var switchButton = document.querySelector('.switch-button');
+var switchBtnRight = document.querySelector('.switch-button-case.right');
+var switchBtnLeft = document.querySelector('.switch-button-case.left');
+var activeSwitch = document.querySelector('.active');
+
+function switchLeft() 
+{
+  switchBtnRight.classList.remove('active-case');
+  switchBtnLeft.classList.add('active-case');
+  activeSwitch.style.left = '0%';
+  
+  $('#farenheit').empty();
+  $('#min').empty();
+  $('#max').empty();
+  $('#celsius').append(celsius + 'ºC');
+  $("#min").append(minCelsius + 'ºC');
+  $("#max").append(maxCelsius + 'ºC');
+}
+
+function switchRight() 
+{
+  switchBtnRight.classList.add('active-case');
+  switchBtnLeft.classList.remove('active-case');
+  activeSwitch.style.left = '50%';
+
+  $('#celsius').empty();
+  $('#min').empty();
+  $('#max').empty();
+  $('#farenheit').append(farenheit + 'ºF');
+  $('#min').append(minF + "ºF");
+  $('#max').append(maxF  + "ºF");
+
+}
+
+switchBtnLeft.addEventListener('click', function() 
+{
+  $('#celsius').empty();
+  switchLeft();
+
+}, false);
+
+switchBtnRight.addEventListener('click', function() 
+{
+  $('#farenheit').empty();
+  switchRight();
+
+}, false);
+</script>
+
+
+
+
+</body>
+
+</html>
