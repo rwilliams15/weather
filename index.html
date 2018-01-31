@@ -22,7 +22,6 @@
 		font-family: Space Mono, Helvetica, 'sans-serif';
 		font-size: 14px;
 		color: #333;
-		/* Text won't center...*/
 	}
 	
 	.container 
@@ -30,11 +29,6 @@
 		display: grid;
 		width: 100%;
 		margin: 40px 0px 10px 0;
-	}
-
-	.container-button
-	{
-		margin-top: 10px;
 	}
 
 	.weather-icon, .title
@@ -46,22 +40,6 @@
 		padding: 15px 100px;
 	}
 	
-	.description-container
-	{
-		background: #efefef;
-		border-radius: 4px;
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		width: 200px;
-		margin: 0 auto;
-		padding:20px 0px;
-	}
-	
-	.block-1
-	{
-		grid-column: 2;
-		padding: 10px;
-	}
 	.weatherInfo 
 	{
 		height: 100%;
@@ -72,7 +50,7 @@
 		font-family: 'Open Sans', Helvetica, sans-serif;
 		font-size: 65px;
 		color: black;
-		font-weight: 600;
+		font-weight: 500;
 	}
 	
 	.switch-button 
@@ -97,18 +75,6 @@
 		<div id="celsius" class="temp-info"></div>
 	</div>
 	</div>
-	<div class="description-container">
-	<div class="block-1">
-		<div class="text">
-		<span>Max</span>
-		<span id="max" class="important-info"> </span>
-		</div>
-		<div class="text">
-		<span>Min</span>
-		<span id="min" class='important-info'> </span>
-		</div>
-    </div>
-	</div>
 	<div class="container-button">
 		<div class="switch-button">
 			<span class="active"></span>
@@ -129,8 +95,6 @@
 	celsius,
 	farenheit,
 	iconNumber,
-	minCelsius,
-	maxCelsius,
 	minF,
 	maxF;
 	//api that gets your ip for your location
@@ -194,8 +158,6 @@
 	$('#min').empty();
 	$('#max').empty();
 	$('#celsius').append(celsius + 'ºC');
-	$("#min").append(minCelsius + 'ºC');
-	$("#max").append(maxCelsius + 'ºC');
 	}
 
 	function switchRight() 
@@ -208,8 +170,6 @@
 	$('#min').empty();
 	$('#max').empty();
 	$('#farenheit').append(farenheit + 'ºF');
-	$('#min').append(minF + "ºF");
-	$('#max').append(maxF  + "ºF");
 	}
 	switchBtnLeft.addEventListener('click', function() 
 	{
