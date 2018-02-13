@@ -3,6 +3,7 @@
 	<head>
 	<title>Weather by Location</title>
     <meta charset="UTF-8">
+	<!--stylesheet starts here-->
 	<style>
 	body 
 	{
@@ -88,15 +89,7 @@
   // Get user's geolocation
   //Variables 
 	var 
-	lat,
-	lon,
-	temp,
-	icon,
-	celsius,
-	farenheit,
-	iconNumber,
-	minF,
-	maxF;
+	lat, lon, temp, icon, celsius, farenheit, iconNumber, minF, maxF;
 	//api that gets your ip for your location
 	$.getJSON('https://ipapi.co/json/', function(data)
 	{
@@ -111,7 +104,7 @@
 	$("#latitude").append(lat);
     $("#longitude").append(lon);
 	
-	//openweathermap api with my APIID
+	//openweathermap api with my generated APIID
     $.getJSON("https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=355cf4f52f81b3451ddb5d55e700b906", function(weatherData) 
 	{
       $.each(weatherData, function() {});
